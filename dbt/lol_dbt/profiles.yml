@@ -1,0 +1,12 @@
+lol_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 5432
+      user: postgres
+      password: mordisco8
+      dbname: lol_pipeline
+      schema: public
+      threads: 1

@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: stg_matches
+    description: "Partidas de ARAM extraídas de la Riot Games API, con timestamps convertidos y duración en minutos calculada."
+    columns:
+      - name: match_id
+        description: "Identificador único de la partida"
+        tests:
+          - unique
+          - not_null
+      - name: game_duration_mins
+        description: "Duración de la partida en minutos"
+        tests:
+          - not_null
+      - name: game_mode
+        description: "Modo de juego"
+        tests:
+          - accepted_values:
+              values: ['ARAM']
+
+  - name: stg_participants
+    description: "Un registro por jugador por partida. Incluye KDA calculado, stats de daño, oro e items."
+    columns:
+      - name: id
+        description: "Identificador único del registro"
+        tests:
+          - unique
+          - not_null
+      - name: match_id
+        description: "Referencia a la partida"
+        tests:
+          - not_null
+      - name: champion_name
+        description: "Nombre del campeón jugado"
+        tests:
+          - not_null
+      - name: kills
+        description: "Kills del jugador en la partida"
+        tests:
+          - not_null
+      - name: deaths
+        description: "Muertes del jugador en la partida"
+        tests:
+          - not_null
+      - name: win
+        description: "Si el jugador ganó la partida"
+        tests:
+          - not_null
+
+  - name: stg_teams
+    description: "Un registro por equipo por partida. Incluye kills, torres e inhibidores."
+    columns:
+      - name: id
+        description: "Identificador único del registro"
+        tests:
+          - unique
+          - not_null
+      - name: team_side
+        description: "Lado del equipo en el mapa"
+        tests:
+          - accepted_values:
+              values: ['Blue', 'Red']
+      - name: win
+        description: "Si el equipo ganó la partida"
+        tests:
+          - not_null

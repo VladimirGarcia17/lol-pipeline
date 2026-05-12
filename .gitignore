@@ -1,0 +1,22 @@
+# Variables de entorno
+.env
+airflow/.env
+
+# Datos crudos
+data/raw_json/
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+
+# dbt
+dbt/lol_dbt/target/
+dbt/lol_dbt/dbt_packages/
+dbt/lol_dbt/logs/
+
+# Airflow
+airflow/logs/
+airflow/airflow.db
+airflow/airflow.cfg
+airflow_env/
