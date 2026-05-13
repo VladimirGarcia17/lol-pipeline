@@ -5,7 +5,7 @@ League of Legends ARAM match data using the Riot Games API.
 
 ## Architecture
 
-![Pipeline Architecture](docs/architecture.png)
+![Pipeline Architecture](docs/lol_pipeline_architecture.svg)
 
 ## Tech Stack
 
