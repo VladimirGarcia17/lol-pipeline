@@ -45,6 +45,7 @@ The pipeline runs daily at 9 AM and consists of three automated tasks:
 
 ## Project Structure
 
+```
 lol-pipeline/
 ├── extraction/          # Riot API extraction scripts
 ├── loading/             # PostgreSQL loading scripts
@@ -57,7 +58,9 @@ lol-pipeline/
 │       └── macros/
 ├── airflow/             # Airflow DAGs and Docker config
 │   └── dags/
+├── docs/                # Architecture diagram
 └── data/                # Raw JSON files (gitignored)
+```
 
 ## Setup
 
