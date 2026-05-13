@@ -5,17 +5,7 @@ League of Legends ARAM match data using the Riot Games API.
 
 ## Architecture
 
-Riot Games API
-↓
-Python (Extraction)
-↓
-PostgreSQL — schema: raw
-↓
-dbt (Transformations)
-↓
-PostgreSQL — schema: analytics
-↓
-Apache Airflow (Orchestration)
+![Pipeline Architecture](docs/architecture.png)
 
 ## Tech Stack
 
@@ -81,7 +71,7 @@ lol-pipeline/
 
 1. Clone the repository
 ```bash
-   git clone https://github.com/tu-usuario/lol-pipeline.git
+   git clone https://github.com/VladimirGarcia17/lol-pipeline.git
    cd lol-pipeline
 ```
 

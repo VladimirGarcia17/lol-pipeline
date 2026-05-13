@@ -2,66 +2,66 @@ version: 2
 
 models:
   - name: stg_matches
-    description: "Partidas de ARAM extraídas de la Riot Games API, con timestamps convertidos y duración en minutos calculada."
+    description: "ARAM matches extracted from the Riot Games API, with converted timestamps and calculated duration in minutes."
     columns:
       - name: match_id
-        description: "Identificador único de la partida"
+        description: "Unique match identifier"
         tests:
           - unique
           - not_null
       - name: game_duration_mins
-        description: "Duración de la partida en minutos"
+        description: "Match duration in minutes"
         tests:
           - not_null
       - name: game_mode
-        description: "Modo de juego"
+        description: "Game mode"
         tests:
           - accepted_values:
               values: ['ARAM']
 
   - name: stg_participants
-    description: "Un registro por jugador por partida. Incluye KDA calculado, stats de daño, oro e items."
+    description: "One record per player per match. Includes calculated KDA, damage, gold and item stats."
     columns:
       - name: id
-        description: "Identificador único del registro"
+        description: "Unique record identifier"
         tests:
           - unique
           - not_null
       - name: match_id
-        description: "Referencia a la partida"
+        description: "Reference to the match"
         tests:
           - not_null
       - name: champion_name
-        description: "Nombre del campeón jugado"
+        description: "Name of the champion played"
         tests:
           - not_null
       - name: kills
-        description: "Kills del jugador en la partida"
+        description: "Player kills in the match"
         tests:
           - not_null
       - name: deaths
-        description: "Muertes del jugador en la partida"
+        description: "Player deaths in the match"
         tests:
           - not_null
       - name: win
-        description: "Si el jugador ganó la partida"
+        description: "Whether the player won the match"
         tests:
           - not_null
 
   - name: stg_teams
-    description: "Un registro por equipo por partida. Incluye kills, torres e inhibidores."
+    description: "One record per team per match. Includes kills, towers and inhibitors."
     columns:
       - name: id
-        description: "Identificador único del registro"
+        description: "Unique record identifier"
         tests:
           - unique
           - not_null
       - name: team_side
-        description: "Lado del equipo en el mapa"
+        description: "Team side on the mapa"
         tests:
           - accepted_values:
               values: ['Blue', 'Red']
       - name: win
-        description: "Si el equipo ganó la partida"
+        description: "Whether the team won the match"
         tests:
           - not_null

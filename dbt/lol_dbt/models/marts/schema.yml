@@ -2,37 +2,37 @@ version: 2
 
 models:
   - name: champion_stats
-    description: "Estadísticas agregadas por campeón across todas las partidas. Incluye winrate, KDA promedio, daño y oro."
+    description: "Aggregated stats per champion across all matches. Includes win rate, avg KDA, damage and gold."
     columns:
       - name: champion_name
-        description: "Nombre del campeón"
+        description: "Champion name"
         tests:
           - unique
           - not_null
 
       - name: win_rate
-        description: "Proporción de victorias sobre total de partidas"
+        description: "Ratio of wins over total games played"
         tests:
           - not_null
 
       - name: total_games
-        description: "Total de partidas jugadas con el campeón"
+        description: "Total games played with the champion"
         tests:
           - not_null
 
   - name: match_summary
-    description: "Resumen por partida con duración, lado ganador y estadísticas de ambos equipos."
+    description: "One row per match with duration, winning side and stats for both teams."
     columns:
       - name: match_id
-        description: "Identificador único de la partida"
+        description: "Unique match identifier"
         tests:
           - unique
           - not_null
 
   - name: player_stats
-    description: "Estadísticas agregadas por jugador. Incluye winrate, KDA promedio y campeones únicos jugados."
+    description: "Aggregated stats per player. Includes win rate, avg KDA and unique champions played."
     columns:
       - name: riot_id_game_name
-        description: "Nombre del invocador"
+        description: "Player summoner name"
         tests:
           - not_null

@@ -6,13 +6,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-#Conexión a PostgreSQL
+#Connect to PostgreSQL
 engine = create_engine(
     f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
     f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
 )
 
-#Cargar datos de la partida (raw.matches)
+#Load match metadata into raw.matches
 def load_match(info: dict, match_id: str, conn):
     query = text("""
         INSERT INTO raw.matches (
@@ -40,7 +40,7 @@ def load_match(info: dict, match_id: str, conn):
         "end_of_game_result":   info.get("endOfGameResult"),
     })
 
-#Cargar participantes (raw.participants)
+#Load player stats into raw.participants
 def load_participants(participants: list, match_id: str, conn):
     query = text("""
         INSERT INTO raw.participants (
@@ -122,7 +122,7 @@ def load_participants(participants: list, match_id: str, conn):
             "spell4_casts":                     p.get("spell4Casts"),
         })
 
-#Cargar equipos (raw.teams)
+#Load team results into raw.teams
 def load_teams(teams: list, match_id: str, conn):
     query = text("""
         INSERT INTO raw.teams (
@@ -149,7 +149,7 @@ def load_teams(teams: list, match_id: str, conn):
             "first_tower":      objectives.get("tower", {}).get("first"),
         })
 
-#PIPELINE PRINCIPAL
+#Main loading pipeline
 def load_all_matches():
     json_files = glob.glob("data/raw_json/*.json")
     print(f"Archivos encontrados: {len(json_files)}")
@@ -167,7 +167,8 @@ def load_all_matches():
             load_participants(info["participants"], match_id, conn)
             load_teams(info["teams"], match_id, conn)
 
-    print(f"\n✅ Carga completa. {len(json_files)} partidas insertadas en PostgreSQL.")
+    print(f"\n✅ Load complete. {len(json_files)} matches inserted into PostgreSQL.")
 
+#Entry point
 if __name__ == "__main__":
     load_all_matches()
