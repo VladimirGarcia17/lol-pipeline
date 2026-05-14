@@ -1,11 +1,11 @@
-# League of Legends ARAM Pipeline
+# League of Legends Pipeline
 
 End-to-end data engineering pipeline that extracts, loads, and transforms
-League of Legends ARAM match data using the Riot Games API.
+League of Legends matches data using the Riot Games API.
 
 ## Architecture
 
-![Pipeline Architecture](docs/lol_pipeline_architecture.svg)
+![Pipeline Architecture](docs/lol_pipeline_architecture.png)
 
 ## Tech Stack
 
@@ -21,7 +21,7 @@ League of Legends ARAM match data using the Riot Games API.
 
 The pipeline runs daily at 9 AM and consists of three automated tasks:
 
-1. **extract_matches** — Fetches the 20 most recent ARAM matches for a
+1. **extract_matches** — Fetches the 20 most recent matches for a
    given player from the Riot Games API and saves them as JSON files.
 
 2. **load_to_postgres** — Parses the raw JSON files and loads them into
