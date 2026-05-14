@@ -1,8 +1,13 @@
 WITH participants AS (
     SELECT * FROM {{ ref('stg_participants') }}
+),
+
+matches AS (
+    SELECT * FROM {{ ref('stg_matches') }}
 )
 
 SELECT
+    m.game_mode,
     riot_id_game_name,
     riot_id_tagline,
     COUNT(*)                                                AS total_games,
@@ -16,7 +21,8 @@ SELECT
     ROUND(AVG(gold_earned), 0)                              AS avg_gold,
     SUM(penta_kills)                                        AS total_penta_kills,
     COUNT(DISTINCT champion_name)                           AS unique_champions_played
-FROM participants
-WHERE riot_id_game_name IS NOT NULL
-GROUP BY riot_id_game_name, riot_id_tagline
-ORDER BY total_games DESC
+FROM participants p
+JOIN matches m ON p.match_id = m.match_id
+WHERE p.riot_id_game_name IS NOT NULL
+GROUP BY m.game_mode, p.riot_id_game_name, p.riot_id_tagline
+ORDER BY m.game_mode, total_games DESC

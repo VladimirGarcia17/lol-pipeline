@@ -1,8 +1,8 @@
 version: 2
 
 models:
-  - name: stg_matches
-    description: "ARAM matches extracted from the Riot Games API, with converted timestamps and calculated duration in minutes."
+  - name: game_mode
+    description: "Game mode"
     columns:
       - name: match_id
         description: "Unique match identifier"

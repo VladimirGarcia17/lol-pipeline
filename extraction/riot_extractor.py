@@ -18,17 +18,17 @@ def get_puuid(game_name: str, tag_line: str, region: str = "americas") -> str:
     response = requests.get(url, headers=HEADERS)
     response.raise_for_status() #Raise error if request fails
     data = response.json()
-    print(f"Jugador encontrado: {data['gameName']}#{data['tagLine']} | PUUID: {data['puuid'][:20]}...")
+    print(f"Player found: {data['gameName']}#{data['tagLine']} | PUUID: {data['puuid'][:20]}...")
     return data["puuid"]
 
 #Get list of recent match IDs
 def get_match_ids(puuid: str, count: int = 20, continent: str = "americas") -> list:
     url = f"https://{continent}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
-    params = {"count": count, "queue": 450} #queue 450 = ARAM
+    params = {"count": count}
     response = requests.get(url, headers=HEADERS, params=params)
     response.raise_for_status()
     match_ids = response.json()
-    print(f"Partidas encontradas: {len(match_ids)}")
+    print(f"Matches found: {len(match_ids)}")
     return match_ids
 
 #Get full data for a single match
@@ -44,11 +44,11 @@ def save_json(data: dict, filename: str):
     filepath = f"data/raw_json/{filename}.json"
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-    print(f"Guardado: {filepath}")
+    print(f"Saved: {filepath}")
     
 #Main extraction pipeline
 def extract_matches_for_player(game_name: str, tag_line: str, match_count: int = 20):
-    print(f"\n=== Extrayendo partidas de: {game_name}#{tag_line} ===")
+    print(f"\n=== Extracting matches for: {game_name}#{tag_line} ===")
     
     #Step 1: get PUUID
     puuid = get_puuid(game_name, tag_line)
@@ -60,7 +60,7 @@ def extract_matches_for_player(game_name: str, tag_line: str, match_count: int =
     
     #Step 3: extract and save each match
     for i, match_id  in enumerate(match_ids):
-        print(f"Extrayendo partida {i+1}/{len(match_ids)}: {match_id}")
+        print(f"Extracting match {i+1}/{len(match_ids)}: {match_id}")
         match_data = get_match_data(match_id)
         save_json(match_data, match_id)
         time.sleep(1.5) #Pause between requests to avoid rate limit

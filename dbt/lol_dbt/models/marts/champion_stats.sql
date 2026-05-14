@@ -7,6 +7,7 @@ matches AS (
 )
 
 SELECT
+    m.game_mode,
     p.champion_name,
     COUNT(*)                                                AS total_games,
     SUM(CASE WHEN p.win THEN 1 ELSE 0 END)                 AS total_wins,
@@ -20,5 +21,5 @@ SELECT
     SUM(p.penta_kills)                                      AS total_penta_kills
 FROM participants p
 JOIN matches m ON p.match_id = m.match_id
-GROUP BY p.champion_name
-ORDER BY total_games DESC
+GROUP BY m.game_mode, p.champion_name
+ORDER BY m.game_mode, total_games DESC

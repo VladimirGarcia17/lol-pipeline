@@ -152,7 +152,10 @@ def load_teams(teams: list, match_id: str, conn):
 #Main loading pipeline
 def load_all_matches():
     json_files = glob.glob("data/raw_json/*.json")
-    print(f"Archivos encontrados: {len(json_files)}")
+    print(f"Files found: {len(json_files)}")
+    
+    skipped = 0
+    loaded = 0
 
     with engine.begin() as conn:
         for filepath in json_files:
@@ -161,13 +164,20 @@ def load_all_matches():
 
             match_id = data["metadata"]["matchId"]
             info = data["info"]
+            
+            #Skip custom games (queue_id = 0)
+            if info.get("queueId") == 0:
+                print(f"Skipping custom game: {match_id}")
+                skipped +- 1
+                continue
 
-            print(f"Cargando: {match_id}")
+            print(f"Loading: {match_id}")
             load_match(info, match_id, conn)
             load_participants(info["participants"], match_id, conn)
             load_teams(info["teams"], match_id, conn)
+            loaded += 1
 
-    print(f"\n✅ Load complete. {len(json_files)} matches inserted into PostgreSQL.")
+    print(f"\nLoad complete. {len(json_files)} matches inserted into PostgreSQL.")
 
 #Entry point
 if __name__ == "__main__":
