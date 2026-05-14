@@ -71,7 +71,7 @@ def load_participants(participants: list, match_id: str, conn):
             :item0, :item1, :item2, :item3, :item4, :item5, :item6,
             :summoner1_id, :summoner2_id,
             :spell1_casts, :spell2_casts, :spell3_casts, :spell4_casts
-        );
+        )
         ON CONFLICT ON CONSTRAINT unique_participant_per_match DO NOTHING;
     """)
     for p in participants:
@@ -133,7 +133,7 @@ def load_teams(teams: list, match_id: str, conn):
             :match_id, :team_id, :win,
             :champion_kills, :tower_kills, :inhibitor_kills,
             :first_blood, :first_tower
-        );
+        )
         ON CONFLICT ON CONSTRAINT unique_team_per_match DO NOTHING;
     """)
     for t in teams:
