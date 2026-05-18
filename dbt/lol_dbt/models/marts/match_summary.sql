@@ -16,6 +16,7 @@ winner AS (
 
 SELECT
     m.match_id,
+    m.game_mode,
     m.game_duration_mins,
     m.game_start_ts,
     m.game_version,
