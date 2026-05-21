@@ -164,12 +164,6 @@ def load_all_matches():
 
             match_id = data["metadata"]["matchId"]
             info = data["info"]
-            
-            #Skip custom games (queue_id = 0)
-            if info.get("queueId") == 0:
-                print(f"Skipping custom game: {match_id}")
-                skipped +- 1
-                continue
 
             print(f"Loading: {match_id}")
             load_match(info, match_id, conn)

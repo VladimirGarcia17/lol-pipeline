@@ -22,9 +22,11 @@ def get_puuid(game_name: str, tag_line: str, region: str = "americas") -> str:
     return data["puuid"]
 
 #Get list of recent match IDs
-def get_match_ids(puuid: str, count: int = 20, continent: str = "americas") -> list:
+def get_match_ids(puuid: str, count: int = 20, continent: str = "americas", queue: int = None) -> list:
     url = f"https://{continent}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
     params = {"count": count}
+    if queue is not None:
+        params["queue"] = queue
     response = requests.get(url, headers=HEADERS, params=params)
     response.raise_for_status()
     match_ids = response.json()
@@ -52,20 +54,30 @@ def extract_matches_for_player(game_name: str, tag_line: str, match_count: int =
     
     #Step 1: get PUUID
     puuid = get_puuid(game_name, tag_line)
-    time.sleep(1.5) #Pausa para respetar rate limit
+    time.sleep(1.5) #Pause to respect rate limit
     
     #Step 2: get matchs IDs
-    match_ids = get_match_ids(puuid, count=match_count)
+    
+    #Extract ARAM matches (queue 450)
+    aram_ids = get_match_ids(puuid, count=match_count, queue=450)
     time.sleep(1.5)
     
-    #Step 3: extract and save each match
-    for i, match_id  in enumerate(match_ids):
-        print(f"Extracting match {i+1}/{len(match_ids)}: {match_id}")
+    #Extract Classic/Ranked matches (queue 420)
+    classic_ids = get_match_ids(puuid, count=match_count, queue=420)
+    time.sleep(1.5)
+    
+    #Step 3: combine and deduplicate
+    all_match_ids = list(set(aram_ids + classic_ids))
+    print(f"\nTotal unique matches to extract: {len(all_match_ids)}")
+    
+    #Step 4: extract and save each match
+    for i, match_id  in enumerate(all_match_ids):
+        print(f"Extracting match {i+1}/{len(all_match_ids)}: {match_id}")
         match_data = get_match_data(match_id)
         save_json(match_data, match_id)
         time.sleep(1.5) #Pause between requests to avoid rate limit
         
-    print(f"\n Extraction complete. {len(match_ids)} matches saved to data/raw_json/")
+    print(f"\n Extraction complete. {len(all_match_ids)} matches saved to data/raw_json/")
 
 #Entry point
 if __name__ == "__main__":
