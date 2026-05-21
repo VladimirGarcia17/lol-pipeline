@@ -43,6 +43,22 @@ The pipeline runs daily at 9 AM and consists of three automated tasks:
 - `analytics.match_summary` — Match duration, winning side, kills per team
 - `analytics.player_stats` — Aggregated stats per player
 
+## Dashboard
+
+Interactive Power BI dashboard with 4 pages built on top of the `analytics` schema.
+
+### Overview
+![Overview](docs/dashboard/overview.png)
+
+### Champion Analysis
+![Champion Analysis](docs/dashboard/champion_analysis.png)
+
+### Match History
+![Match History](docs/dashboard/match_history.png)
+
+### Player Stats
+![Player Stats](docs/dashboard/player_stats.png)
+
 ## Project Structure
 
 ```
