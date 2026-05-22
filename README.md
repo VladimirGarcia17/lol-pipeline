@@ -75,7 +75,8 @@ lol-pipeline/
 ├── airflow/             # Airflow DAGs and Docker config
 │   └── dags/
 ├── docs/                # Architecture diagram
-└── data/                # Raw JSON files (gitignored)
+├── data/                # Raw JSON files (gitignored)
+└── dashboard/           # Power BI .pbix file
 ```
 
 ## Setup
